@@ -33,8 +33,12 @@
       </article>
         <article class="index-intro">
               <div class="jumbotron jumbotron-fluid">
+                
                 <div class="container">
                   <form class="needs-validation" novalidate>
+                    <h2>Create a Magic the Gathering Deck!</h2>
+                    <h5>Simply specify the color, format and number of cards in your deck and click "Generate Deck!"</h5>
+                    <br><br>
                     <div class="form-row">
                       <div class="col-md-2 mb-3">
                         <label for="validationTooltip01">Colors</label>
@@ -109,13 +113,12 @@
                       </div>
                       <div class="col-md-1 mb3"></div>
                       <div class="col-md-5 mb3">
-                         <h3>What is Magic the Gathering?</h3>
+                         <h4>What is Magic the Gathering?</h4>
                         <p>Magic can be played by two or more players in various formats, which fall into two categories: constructed and limited. Limited formats involve players building a deck spontaneously out of a pool of random cards with a minimum deck size of 40 cards. In constructed, players create decks from cards they own, usually 60 cards with no more than 4 of any given card. Magic is played in person with printed cards, or using a deck of virtual cards through the Internet-based Magic: The Gathering Online, or on a smartphone or tablet, or through other programs.</p>
 
                         <p>Each game represents a battle between wizards known as "planeswalkers", who employ spells, artifacts, and creatures depicted on individual Magic cards to defeat their opponents. Although the original concept of the game drew heavily from the motifs of traditional fantasy role-playing games such as Dungeons & Dragons, the gameplay of Magic bears little similarity to pencil-and-paper adventure games, while having substantially more cards and more complex rules than many other card games.</p>
 
-                        <p>New cards are released on a regular basis through expansion sets. An organized tournament system played at an international level and a worldwide community of professional Magic players has developed, as well as a substantial secondary market for Magic cards. Certain Magic cards can be valuable due to their rarity and utility in game play, with prices ranging from a few cents to thousands of dollars.</p>
-                          
+
                         </div>
                     </div>
                   </form>
@@ -219,19 +222,19 @@
       var usedCards = 1;
       var cardName;
       var giColors;
+      var numCardsGiven;
       
       for(i = 0; i < numColors; ++i){
-        var APIUrlPlaneswalkers = APIUrl + "format=" + format + "&types=planeswalker&contains=imageUrl&colorIdentity=" + Identities[i];
+        var APIUrlPlaneswalkers = APIUrl + "gameFormat=" + format + "&types=planeswalker&contains=imageUrl&colorIdentity=" + Identities[i];
         $.ajax({
         url : APIUrlPlaneswalkers,
         dataType : "json",
         success : function(data){
           var randomIndex = 0;
           for(j = 0; j < Math.ceil(numPlaneswalkers/numColors); ++j){
-            if(j <= numPlaneswalkers){
-              randomIndex = Math.floor((Math.random() * 20));
-        
-
+            if(j < numPlaneswalkers){
+              numCardsGiven = data['cards'].length;
+              randomIndex = Math.floor((Math.random() * numCardsGiven));
               imageURL = data['cards'][randomIndex]['imageUrl'];
               cardName = "card" + usedCards.toString() + "Image";
               document.getElementById(cardName).src = imageURL;
@@ -244,15 +247,16 @@
         });
       }
       for(i = 0; i < numColors; ++i){
-        var APIUrlCreatures = APIUrl + "format=" + format + "&types=creature&contains=imageUrl&colorIdentity=" + Identities[i];
+        var APIUrlCreatures = APIUrl + "gameFormat=" + format + "&types=creature&contains=imageUrl&colorIdentity=" + Identities[i];
         $.ajax({
         url : APIUrlCreatures,
         dataType : "json",
         success : function(data){
           var randomIndex = 0;
+          numCardsGiven = data['cards'].length;
           for(j = 0; j < Math.ceil(numCreatures/numColors); ++j){
             if(j <= numCreatures ){
-              randomIndex = Math.floor((Math.random() * 50));
+              randomIndex = Math.floor((Math.random() * numCardsGiven));
               imageURL = data['cards'][randomIndex]['imageUrl'];
               cardName = "card" + usedCards.toString() + "Image";
               document.getElementById(cardName).src = imageURL;
@@ -263,15 +267,16 @@
         });
       }
       for(i = 0; i < numColors; ++i){
-        var APIUrlInstants = APIUrl + "format=" + format + "&types=instant&contains=imageUrl&colorIdentity=" + Identities[i];
+        var APIUrlInstants = APIUrl + "gameFormat=" + format + "&types=instant&contains=imageUrl&colorIdentity=" + Identities[i];
         $.ajax({
         url : APIUrlInstants,
         dataType : "json",
         success : function(data){
           var randomIndex = 0;
+          numCardsGiven = data['cards'].length;
           for(j = 0; j < Math.ceil(numInstants/numColors); ++j){
             if(j <= numInstants){
-              randomIndex = Math.floor((Math.random() * 100));
+              randomIndex = Math.floor((Math.random() * numCardsGiven));
               imageURL = data['cards'][randomIndex]['imageUrl'];
               cardName = "card" + usedCards.toString() + "Image";
               document.getElementById(cardName).src = imageURL;
@@ -282,15 +287,16 @@
         });
       }
       for(i = 0; i < numColors; ++i){
-        var APIUrlSorceries = APIUrl + "format=" + format + "&types=sorcery&contains=imageUrl&colorIdentity=" + Identities[i];
+        var APIUrlSorceries = APIUrl + "gameFormat=" + format + "&types=sorcery&contains=imageUrl&colorIdentity=" + Identities[i];
         $.ajax({
         url : APIUrlSorceries,
         dataType : "json",
         success : function(data){
           var randomIndex = 0;
+          numCardsGiven = data['cards'].length;
           for(j = 0; j < Math.ceil(numSorceries/numColors); ++j){
             if(j <= numSorceries){
-              randomIndex = Math.floor((Math.random() * 100));
+              randomIndex = Math.floor((Math.random() * numCardsGiven));
               imageURL = data['cards'][randomIndex]['imageUrl'];
               cardName = "card" + usedCards.toString() + "Image";
               document.getElementById(cardName).src = imageURL;
@@ -301,15 +307,16 @@
         });
       }
       for(i = 0; i < numColors; ++i){
-        var APIUrlEnchantments = APIUrl + "format=" + format + "&types=enchantment&contains=imageUrl&colorIdentity=" + Identities[i];
+        var APIUrlEnchantments = APIUrl + "gameFormat=" + format + "&types=enchantment&contains=imageUrl&colorIdentity=" + Identities[i];
         $.ajax({
         url : APIUrlEnchantments,
         dataType : "json",
         success : function(data){
           var randomIndex = 0;
+          numCardsGiven = data['cards'].length;
           for(j = 0; j < Math.ceil(numEnchantments/numColors); ++j){
             if(j <= numEnchantments){
-              randomIndex = Math.floor((Math.random() * 100));
+              randomIndex = Math.floor((Math.random() * numCardsGiven));
               imageURL = data['cards'][randomIndex]['imageUrl'];
               cardName = "card" + usedCards.toString() + "Image";
               document.getElementById(cardName).src = imageURL;
@@ -320,15 +327,16 @@
         });
       }
       
-      var APIUrlArtifacts = APIUrl + "format=" + format + "&types=artifact&contains=imageUrl";
+      var APIUrlArtifacts = APIUrl + "gameFormat=" + format + "&types=artifact&contains=imageUrl";
       $.ajax({
       url : APIUrlArtifacts,
       dataType : "json",
       success : function(data){
         var randomIndex = 0;
+        numCardsGiven = data['cards'].length;
         for(j = 0; j < numArtifacts; ++j){
           if(j <= numArtifacts){
-            randomIndex = Math.floor((Math.random() * 100));
+            randomIndex = Math.floor((Math.random() * numCardsGiven));
             imageURL = data['cards'][randomIndex]['imageUrl'];
             cardName = "card" + usedCards.toString() + "Image";
             document.getElementById(cardName).src = imageURL;
@@ -339,15 +347,16 @@
       });
       
       for(i = 0; i < numColors; ++i){
-        var APIUrlLand = APIUrl + "format=" + format + "&types=land&contains=imageUrl&colorIdentity=" + Identities[i];
+        var APIUrlLand = APIUrl + "gameFormat=" + format + "&types=land&contains=imageUrl&colorIdentity=" + Identities[i];
         $.ajax({
         url : APIUrlLand,
         dataType : "json",
         success : function(data){
           var randomIndex = 0;
+          numCardsGiven = data['cards'].length;
           for(j = 0; j < Math.ceil(numLands/numColors); ++j){
             if(j <= numLands){
-              randomIndex = Math.floor((Math.random() * 100));
+              randomIndex = Math.floor((Math.random() * numCardsGiven));
               imageURL = data['cards'][randomIndex]['imageUrl'];
               cardName = "card" + usedCards.toString() + "Image";
               document.getElementById(cardName).src = imageURL;
